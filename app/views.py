@@ -31,7 +31,6 @@ def vnc_proxy(request):
         'password': 'os9527'
     })
 
-
 def vnc_proxy_http(request):
     """VNC远程控制代理"""
 

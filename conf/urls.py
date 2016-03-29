@@ -14,11 +14,18 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
+from django.views import static
 import app.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^vnc$', app.views.vnc_proxy_http),
+    url(r'^static/(?P<path>.*)$', static.serve, {
+        'document_root': (settings.DEBUG and 
+                          settings.STATICFILES_DIRS or 
+                          settings.STATIC_ROOT)
+    }),
 ]
