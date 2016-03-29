@@ -125,7 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+if DEBUG:
+    STATICFILES_DIRS = ('', os.path.join(BASE_DIR, 'static'))
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
-VNC_PROXY_HOST = '127.0.0.1'
+VNC_PROXY_HOST = '10.0.0.3'
 VNC_PROXY_PORT = '6080'

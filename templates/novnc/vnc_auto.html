@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,22 +26,22 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <!-- App Start Icon  -->
-    <link rel="apple-touch-startup-image" href="images/screen_320x460.png" />
+    <link rel="apple-touch-startup-image" href="{% static 'novnc/images/screen_320x460.png' %}" />
     <!-- For iOS devices set the icon to use if user bookmarks app on their homescreen -->
-    <link rel="apple-touch-icon" href="images/screen_57x57.png">
+    <link rel="apple-touch-icon" href="{% static 'novnc/images/screen_57x57.png' %}">
     <!--
-    <link rel="apple-touch-icon-precomposed" href="images/screen_57x57.png" />
+    <link rel="apple-touch-icon-precomposed" href="{% static 'novnc/images/screen_57x57.png' %}" />
     -->
 
-
+    <script>var INCLUDE_URI='/static/novnc/include/'</script>
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="include/base.css" title="plain">
+    <link rel="stylesheet" href="{% static 'novnc/include/base.css' %}" title="plain">
 
      <!--
     <script type='text/javascript'
         src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script>
     -->
-        <script src="include/util.js"></script>
+        <script src="{% static 'novnc/include/util.js' %}"></script>
 </head>
 
 <body style="margin: 0px;">
@@ -160,9 +161,8 @@
             WebUtil.init_logging(WebUtil.getQueryVar('logging', 'warn'));
             document.title = unescape(WebUtil.getQueryVar('title', 'noVNC'));
             // By default, use the host and port of server that served this file
-            host = WebUtil.getQueryVar('host', window.location.hostname);
-            port = WebUtil.getQueryVar('port', window.location.port);
-
+            host = WebUtil.getQueryVar('host', '{{host}}'?'{{host}}':window.location.hostname);
+            port = WebUtil.getQueryVar('port', {{port}}?{{port}}:window.location.port);
             // if port == 80 (or 443) then it won't be present and should be
             // set manually
             if (!port) {
@@ -181,9 +181,9 @@
                 WebUtil.createCookie('token', token, 1)
             }
 
-            password = WebUtil.getQueryVar('password', '');
-            path = WebUtil.getQueryVar('path', 'websockify');
-
+            password = WebUtil.getQueryVar('password', '{{password}}'?'{{password}}':'');
+            path = WebUtil.getQueryVar('path', '{{path}}'?'{{path}}':'');
+            path += '?token='+token;
             if ((!host) || (!port)) {
                 updateState('failed',
                     "Must specify host and port in URL");
@@ -201,6 +201,7 @@
                            'onUpdateState':  updateState,
                            'onXvpInit':    xvpInit,
                            'onPasswordRequired':  passwordRequired});
+            console.log(host, port, password, path);
             rfb.connect(host, port, password, path);
         };
         </script>
