@@ -16,5 +16,5 @@ a simple novnc-django demo
 - websockify 127.0.0.1:6080 --target-config=/path/to/config_path/vnc_tokens
 
 ### More Details
-[novnc远程控制的简单实现](http://blog.missuor.com/blogs/1132/detail)
+[novnc远程控制的简单实现](http://www.missuor.com/blog/2016/9/novnc-in-django-demo)
 
